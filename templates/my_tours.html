@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-route text-success me-2"></i>Мои туры</h2>
+        <a href="/create-tour" class="btn btn-success">
+            <i class="fas fa-plus-circle me-2"></i>Создать тур
+        </a>
+    </div>
+
+    {% if tours %}
+    <div class="row g-4">
+        {% for tour in tours %}
+        <div class="col-md-6 col-lg-4">
+            <div class="tour-card">
+                <div class="tour-status-badge {% if tour.is_active %}active{% else %}inactive{% endif %}">
+                    {% if tour.is_active %}Активен{% else %}Неактивен{% endif %}
+                </div>
+                {% if tour.image_url %}
+                <img src="{{ tour.image_url }}" class="tour-img" alt="{{ tour.title }}">
+                {% else %}
+                <div class="tour-img-placeholder">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="tour-info">
+                    <h4 class="tour-title">{{ tour.title }}</h4>
+                    <div class="tour-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> {{ tour.location }}</span>
+                        <span><i class="fas fa-calendar"></i> {{ tour.duration_days }} дн.</span>
+                        <span><i class="fas fa-users"></i> {{ tour.max_people }} чел.</span>
+                    </div>
+                    <div class="tour-price">
+                        {{ "{:,.0f}".format(tour.price) }} ₽
+                    </div>
+                    <div class="tour-actions">
+                        <a href="/tour/{{ tour.id }}" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-eye me-1"></i>Просмотр
+                        </a>
+                        <a href="/edit-tour/{{ tour.id }}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-edit me-1"></i>Ред.
+                        </a>
+                        <a href="/delete-tour/{{ tour.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Удалить этот тур?')">
+                            <i class="fas fa-trash me-1"></i>Удалить
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state text-center py-5">
+        <i class="fas fa-route fa-4x text-muted mb-3"></i>
+        <h4>У вас пока нет созданных туров</h4>
+        <p class="text-muted">Станьте гидом и делитесь своими маршрутами!</p>
+        <a href="/create-tour" class="btn btn-success mt-3">
+            <i class="fas fa-plus-circle me-2"></i>Создать первый тур
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

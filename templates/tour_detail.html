@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <!-- Левая колонка - изображение и информация -->
+        <div class="col-lg-8">
+            <div class="tour-detail-card">
+                {% if tour.image_url %}
+                <img src="{{ tour.image_url }}" class="tour-detail-img" alt="{{ tour.title }}">
+                {% else %}
+                <div class="tour-detail-img-placeholder">
+                    <i class="fas fa-mountain fa-5x text-muted"></i>
+                </div>
+                {% endif %}
+
+                <div class="tour-detail-content">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h1 class="mb-0">{{ tour.title }}</h1>
+                        <span class="tour-category-badge">{{ category_name }}</span>
+                    </div>
+
+                    <div class="tour-meta-grid mb-4">
+                        <div class="meta-item">
+                            <i class="fas fa-map-marker-alt text-success"></i>
+                            <span>{{ tour.location }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt text-success"></i>
+                            <span>{{ tour.duration_days }} дня(ей)</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-users text-success"></i>
+                            <span>до {{ tour.max_people }} чел.</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock text-success"></i>
+                            <span>{{ tour.start_date.strftime('%d.%m.%Y') }} - {{ tour.end_date.strftime('%d.%m.%Y') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="tour-section">
+                        <h4><i class="fas fa-align-left me-2 text-success"></i>Описание</h4>
+                        <p>{{ tour.description }}</p>
+                    </div>
+
+                    <div class="tour-section">
+                        <h4><i class="fas fa-route me-2 text-success"></i>Программа маршрута</h4>
+                        <div class="itinerary-text">
+                            {{ tour.itinerary|replace('\n', '<br>')|safe }}
+                        </div>
+                    </div>
+
+                    {% if tour.includes %}
+                    <div class="tour-section">
+                        <h4><i class="fas fa-check-circle me-2 text-success"></i>Что включено</h4>
+                        <div class="includes-text">
+                            {{ tour.includes|replace('\n', '<br>')|safe }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая колонка - бронирование и гид -->
+        <div class="col-lg-4">
+            <div class="booking-card sticky-top" style="top: 80px;">
+                <div class="price-box">
+                    <div class="price">{{ "{:,.0f}".format(tour.price) }} ₽</div>
+                    <div class="price-label">с человека</div>
+                </div>
+
+                <hr>
+
+                <div class="guide-info">
+                    <h5><i class="fas fa-user-circle me-2"></i>Ваш гид</h5>
+                    <div class="d-flex align-items-center mt-2">
+                        {% if tour.guide.avatar_url %}
+                        <img src="{{ tour.guide.avatar_url }}" class="guide-avatar" alt="{{ tour.guide.name }}">
+                        {% else %}
+                        <div class="guide-avatar-placeholder">
+                            {{ tour.guide.name[0] }}
+                        </div>
+                        {% endif %}
+                        <div class="ms-3">
+                            <strong>{{ tour.guide.name }}</strong>
+                            <div class="text-muted small">
+                                <i class="fas fa-star text-warning"></i>
+                                {% if tour.guide.about %}
+                                {{ tour.guide.about[:50] }}...
+                                {% else %}
+                                Профессиональный гид
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.id == tour.guide_id %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Вы организатор этого тура
+                        </div>
+                        <a href="/edit-tour/{{ tour.id }}" class="btn btn-outline-primary w-100 mb-2">
+                            <i class="fas fa-edit me-2"></i>Редактировать тур
+                        </a>
+                        <a href="/delete-tour/{{ tour.id }}" class="btn btn-outline-danger w-100" onclick="return confirm('Удалить этот тур?')">
+                            <i class="fas fa-trash me-2"></i>Удалить тур
+                        </a>
+                    {% else %}
+                        <form method="post" action="/tour/{{ tour.id }}/book">
+                            {{ booking_form.hidden_tag() }}
+
+                            <div class="mb-3">
+                                {{ booking_form.people_count.label(class="form-label") }}
+                                {{ booking_form.people_count(class="form-control", min=1, max=tour.max_people) }}
+                                <small class="text-muted">Максимум {{ tour.max_people }} участников</small>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ booking_form.message.label(class="form-label") }}
+                                {{ booking_form.message(class="form-control", rows=3, placeholder="Напишите гиду, если есть вопросы...") }}
+                            </div>
+
+                            <div class="total-price mb-3">
+                                <span>Итого:</span>
+                                <strong class="text-success" id="total-price">{{ "{:,.0f}".format(tour.price) }} ₽</strong>
+                            </div>
+
+                            {{ booking_form.submit(class="btn btn-success w-100 py-2") }}
+                        </form>
+
+                        <script>
+                            const peopleCount = document.querySelector('#people_count');
+                            const totalPriceSpan = document.querySelector('#total-price');
+                            const pricePerPerson = {{ tour.price }};
+
+                            peopleCount.addEventListener('input', function() {
+                                const total = pricePerPerson * this.value;
+                                totalPriceSpan.textContent = total.toLocaleString('ru-RU') + ' ₽';
+                            });
+                        </script>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-lock me-2"></i>Для бронирования необходимо
+                        <a href="/login?next=/tour/{{ tour.id }}" class="alert-link">войти</a>
+                    </div>
+                    <a href="/login" class="btn btn-success w-100">Войти для бронирования</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

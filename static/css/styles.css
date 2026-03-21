@@ -1,0 +1,41 @@
+<style>
+    body {
+        background: #1a1a2e;
+        color: white;
+    }
+    .navbar {
+        background: #0f0f1a !important;
+        border-bottom: 2px solid #4CAF50;
+        padding: 15px 0;
+    }
+    .navbar-brand {
+        color: white !important;
+        font-weight: bold;
+    }
+    .nav-link {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    .nav-link:hover {
+        color: #4CAF50 !important;
+    }
+    .btn-register {
+        background: #4CAF50;
+        border-radius: 20px;
+    }
+    .dropdown-menu {
+        background: #0f0f1a;
+        border: 1px solid #4CAF50;
+    }
+    .dropdown-item {
+        color: white;
+    }
+    .dropdown-item:hover {
+        background: rgba(76,175,80,0.2);
+    }
+    .footer {
+        background: #0f0f1a;
+        padding: 40px 0 20px;
+        margin-top: 60px;
+        border-top: 1px solid #4CAF50;
+    }
+</style>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="about-card">
+                <div class="text-center mb-5">
+                    <i class="fas fa-compass fa-4x text-success"></i>
+                    <h1 class="mt-3">О проекте WildRoutes</h1>
+                    <p class="lead text-muted">Открываем Россию вместе</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4><i class="fas fa-bullseye text-success me-2"></i>Наша миссия</h4>
+                    <p>Сделать путешествия по России доступными и увлекательными для каждого. Мы помогаем людям открывать уникальные места, сохранять впечатления и делиться опытом.</p>
+                </div>
+
+                <div class="mb-5">
+                    <h4><i class="fas fa-star text-success me-2"></i>Что мы предлагаем</h4>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Интерактивная карта с достопримечательностями</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Возможность добавлять свои места</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Избранное и история просмотров</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Обмен опытом с другими путешественниками</li>
+                    </ul>
+                </div>
+
+                <div class="mb-5">
+                    <h4><i class="fas fa-users text-success me-2"></i>Команда разработчиков</h4>
+                    <div class="row mt-3">
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-code fa-2x text-primary"></i>
+                            <h6 class="mt-2">Clean Code Clan</h6>
+                            <small class="text-muted">Разработка и дизайн</small>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-chart-line fa-2x text-success"></i>
+                            <h6 class="mt-2">CCC Team</h6>
+                            <small class="text-muted">Аналитика и поддержка</small>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-palette fa-2x text-warning"></i>
+                            <h6 class="mt-2">Design Studio</h6>
+                            <small class="text-muted">UI/UX дизайн</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack p-4 rounded">
+                    <h5 class="text-center mb-3">Технологии</h5>
+                    <div class="d-flex justify-content-center gap-4 flex-wrap">
+                        <span class="badge bg-primary">Python</span>
+                        <span class="badge bg-success">Flask</span>
+                        <span class="badge bg-info">SQLite</span>
+                        <span class="badge bg-warning">Bootstrap 5</span>
+                        <span class="badge bg-danger">Yandex Maps API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

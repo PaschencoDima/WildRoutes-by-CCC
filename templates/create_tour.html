@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="form-card">
+                <div class="text-center mb-4">
+                    <i class="fas fa-route fa-3x text-success"></i>
+                    <h3 class="mt-3">{{ title }}</h3>
+                    <p class="text-muted">Расскажите о своем уникальном маршруте</p>
+                </div>
+
+                <form method="post" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                {{ form.title.label(class="form-label") }}
+                                {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else ""), placeholder="Например: Поход на плато Маньпупунер") }}
+                                {% for error in form.title.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                {{ form.category.label(class="form-label") }}
+                                {{ form.category(class="form-select" + (" is-invalid" if form.category.errors else "")) }}
+                                {% for error in form.category.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""), rows=4, placeholder="Опишите основные особенности тура...") }}
+                        {% for error in form.description.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.location.label(class="form-label") }}
+                                {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else ""), placeholder="Город, регион") }}
+                                {% for error in form.location.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                {{ form.duration_days.label(class="form-label") }}
+                                {{ form.duration_days(class="form-control" + (" is-invalid" if form.duration_days.errors else ""), placeholder="Дней") }}
+                                {% for error in form.duration_days.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                {{ form.max_people.label(class="form-label") }}
+                                {{ form.max_people(class="form-control" + (" is-invalid" if form.max_people.errors else ""), placeholder="Макс. участников") }}
+                                {% for error in form.max_people.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.start_date.label(class="form-label") }}
+                                {{ form.start_date(class="form-control" + (" is-invalid" if form.start_date.errors else ""), placeholder="2024-12-31 10:00") }}
+                                {% for error in form.start_date.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.end_date.label(class="form-label") }}
+                                {{ form.end_date(class="form-control" + (" is-invalid" if form.end_date.errors else ""), placeholder="2024-12-31 18:00") }}
+                                {% for error in form.end_date.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.price.label(class="form-label") }}
+                                {{ form.price(class="form-control" + (" is-invalid" if form.price.errors else ""), placeholder="Цена в рублях") }}
+                                {% for error in form.price.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form.image_url.label(class="form-label") }}
+                                {{ form.image_url(class="form-control" + (" is-invalid" if form.image_url.errors else ""), placeholder="Ссылка на фото") }}
+                                {% for error in form.image_url.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.itinerary.label(class="form-label") }}
+                        {{ form.itinerary(class="form-control" + (" is-invalid" if form.itinerary.errors else ""), rows=6, placeholder="День 1: ...\nДень 2: ...") }}
+                        <small class="text-muted">Подробное описание программы по дням</small>
+                        {% for error in form.itinerary.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.includes.label(class="form-label") }}
+                        {{ form.includes(class="form-control" + (" is-invalid" if form.includes.errors else ""), rows=4, placeholder="Трансфер\nПроживание\nПитание\nЭкипировка") }}
+                        <small class="text-muted">Что входит в стоимость (каждый пункт с новой строки)</small>
+                        {% for error in form.includes.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        {{ form.is_private }}
+                        {{ form.is_private.label(class="form-check-label") }}
+                        <small class="text-muted d-block">Если тур неактивен, он не будет отображаться в поиске</small>
+                    </div>
+
+                    <div class="d-flex gap-3">
+                        <a href="/my-tours" class="btn btn-secondary flex-grow-1">
+                            <i class="fas fa-times me-2"></i>Отмена
+                        </a>
+                        {{ form.submit(class="btn btn-success flex-grow-1") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

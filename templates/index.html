@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero секция -->
+<section class="hero-section">
+    <div class="container text-center py-5">
+        <h1 class="display-3 fw-bold mb-4">
+            <i class="fas fa-mountain text-success me-2"></i>
+            WildRoutes
+        </h1>
+        <p class="lead mb-4">Уникальные авторские путешествия от частных гидов</p>
+        <div class="search-box">
+            <form action="/" method="get" class="row g-2 justify-content-center">
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control form-control-lg" placeholder="Куда поедем?" value="{{ search_query }}">
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-select form-select-lg">
+                        <option value="">Все категории</option>
+                        <option value="hiking" {% if category == 'hiking' %}selected{% endif %}>🏔️ Походы</option>
+                        <option value="city" {% if category == 'city' %}selected{% endif %}>🏙️ Городские</option>
+                        <option value="adventure" {% if category == 'adventure' %}selected{% endif %}>🚣 Приключения</option>
+                        <option value="cultural" {% if category == 'cultural' %}selected{% endif %}>🏛️ Культура</option>
+                        <option value="food" {% if category == 'food' %}selected{% endif %}>🍜 Гастрономия</option>
+                        <option value="nature" {% if category == 'nature' %}selected{% endif %}>🌿 Природа</option>
+                        <option value="extreme" {% if category == 'extreme' %}selected{% endif %}>⚡ Экстрим</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success btn-lg w-100">
+                        <i class="fas fa-search me-2"></i>Найти
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Категории быстрого доступа -->
+<section class="categories-section py-4">
+    <div class="container">
+        <div class="row text-center g-3">
+            <div class="col">
+                <a href="/?category=hiking" class="category-badge">🏔️ Походы</a>
+                <a href="/?category=city" class="category-badge">🏙️ Городские</a>
+                <a href="/?category=adventure" class="category-badge">🚣 Приключения</a>
+                <a href="/?category=cultural" class="category-badge">🏛️ Культура</a>
+                <a href="/?category=food" class="category-badge">🍜 Гастрономия</a>
+                <a href="/?category=nature" class="category-badge">🌿 Природа</a>
+                <a href="/?category=extreme" class="category-badge">⚡ Экстрим</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Каталог туров -->
+<section class="tours-section py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col">
+                <h2><i class="fas fa-compass me-2 text-success"></i>Популярные маршруты</h2>
+                <p class="text-muted">Найди свое идеальное приключение</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for tour in tours %}
+            <div class="col-md-6 col-lg-4">
+                <div class="tour-card">
+                    {% if tour.image_url %}
+                    <img src="{{ tour.image_url }}" class="tour-img" alt="{{ tour.title }}">
+                    {% else %}
+                    <div class="tour-img-placeholder">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="tour-badge">{{ tour.category_icon }} {{ tour.category_name }}</div>
+                    <div class="tour-info">
+                        <h4 class="tour-title">{{ tour.title }}</h4>
+                        <div class="tour-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> {{ tour.location }}</span>
+                            <span><i class="fas fa-calendar"></i> {{ tour.duration_days }} дн.</span>
+                        </div>
+                        <p class="tour-description">{{ tour.description[:100] }}...</p>
+                        <div class="tour-footer">
+                            <div class="tour-price">
+                                <span class="price">{{ "{:,.0f}".format(tour.price) }} ₽</span>
+                                <small>с человека</small>
+                            </div>
+                            <a href="/tour/{{ tour.id }}" class="btn btn-success btn-sm">Подробнее →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="empty-state text-center py-5">
+                    <i class="fas fa-map-marked-alt fa-4x text-muted mb-3"></i>
+                    <h4>Туров не найдено</h4>
+                    <p class="text-muted">Попробуйте изменить параметры поиска</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Призыв к действию для гидов -->
+{% if not current_user.is_authenticated or current_user.role != 'guide' %}
+<section class="cta-section py-5">
+    <div class="container text-center">
+        <div class="cta-card">
+            <h3>Хотите делиться своими маршрутами?</h3>
+            <p class="mb-4">Станьте гидом на WildRoutes и находите единомышленников</p>
+            <a href="/register?role=guide" class="btn btn-success btn-lg">
+                <i class="fas fa-star me-2"></i>Стать гидом
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
