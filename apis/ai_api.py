@@ -5,7 +5,7 @@ import os
 ai_api = Blueprint("ai_api", __name__, url_prefix="/api/ai")
 
 # Конфигурация OpenAI
-API_TOKEN = "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"
+API_TOKEN = "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"
 ai_model = "stepfun/step-3.5-flash:free"
 
 client = OpenAI(

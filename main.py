@@ -2,6 +2,8 @@ import datetime
 from flask import Flask, request, render_template, redirect, abort, jsonify, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
+from sqlalchemy.orm import joinedload
+
 from data import db_session
 from data.tours import Tour
 from data.users import User, AnonymousUser
@@ -161,6 +163,11 @@ def profile():
     db_sess = db_session.create_session()
     user = db_sess.get(User, current_user.id)
 
+    user = db_sess.query(User).options(joinedload(User.tours)).filter(User.id == current_user.id).first()
+
+    if not user:
+        abort(404)
+
     if request.method == "GET":
         form.name.data = user.name
         form.email.data = user.email
@@ -218,9 +225,6 @@ def my_tours():
 @app.route("/create-tour", methods=["GET", "POST"])
 @login_required
 def create_tour():
-    if not current_user.is_guide():
-        abort(403)
-
     form = TourForm()
 
     if form.validate_on_submit():
@@ -239,9 +243,31 @@ def create_tour():
             image_url=form.image_url.data,
             includes=form.includes.data,
             itinerary=form.itinerary.data,
-            guide_id=current_user.id,
+            organizer_type=form.organizer_type.data,
             is_active=form.is_active.data
         )
+
+        # Устанавливаем изображения
+        images_list = form.get_images_list()
+        if images_list:
+            tour.set_images_list(images_list)
+
+        # Заполняем данные в зависимости от типа организатора
+        if form.organizer_type.data == 'company':
+            tour.company_name = form.company_name.data or "WildRoutes"
+            tour.company_description = form.company_description.data
+            tour.company_phone = form.company_phone.data
+            tour.company_email = form.company_email.data
+            tour.company_website = form.company_website.data
+            tour.guide_id = None
+        else:  # guide
+            tour.guide_id = current_user.id
+            # Очищаем поля компании
+            tour.company_name = None
+            tour.company_description = None
+            tour.company_phone = None
+            tour.company_email = None
+            tour.company_website = None
 
         db_sess.add(tour)
         db_sess.commit()
@@ -278,6 +304,22 @@ def edit_tour(tour_id):
         form.itinerary.data = tour.itinerary
         form.is_active.data = tour.is_active
 
+        # Поля для организатора
+        if tour.organizer_type == 'company':
+            form.organizer_type.data = 'company'
+            form.company_name.data = tour.company_name
+            form.company_description.data = tour.company_description
+            form.company_phone.data = tour.company_phone
+            form.company_email.data = tour.company_email
+            form.company_website.data = tour.company_website
+        else:
+            form.organizer_type.data = 'guide'
+
+        # Загружаем изображения
+        images = tour.get_images_list()
+        if images:
+            form.images.data = ', '.join(images)
+
     if form.validate_on_submit():
         tour.title = form.title.data
         tour.description = form.description.data
@@ -292,6 +334,30 @@ def edit_tour(tour_id):
         tour.includes = form.includes.data
         tour.itinerary = form.itinerary.data
         tour.is_active = form.is_active.data
+        tour.organizer_type = form.organizer_type.data
+
+        # Обновляем изображения
+        images_list = form.get_images_list()
+        if images_list:
+            tour.set_images_list(images_list)
+        else:
+            tour.set_images_list([])
+
+        # Обновляем данные организатора
+        if form.organizer_type.data == 'company':
+            tour.company_name = form.company_name.data or "WildRoutes"
+            tour.company_description = form.company_description.data
+            tour.company_phone = form.company_phone.data
+            tour.company_email = form.company_email.data
+            tour.company_website = form.company_website.data
+            tour.guide_id = None
+        else:
+            tour.guide_id = current_user.id
+            tour.company_name = None
+            tour.company_description = None
+            tour.company_phone = None
+            tour.company_email = None
+            tour.company_website = None
 
         db_sess.commit()
 
@@ -404,3 +470,4 @@ if __name__ == "__main__":
     app.register_blueprint(bookings_api)
     app.register_blueprint(ai_api)
     app.run(host="127.0.0.1", port=5000, debug=True)
+    profile

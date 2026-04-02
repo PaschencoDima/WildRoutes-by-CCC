@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, NumberRange, Optional
-
+from wtforms.validators import DataRequired, NumberRange, Optional, Length
 
 class BookingForm(FlaskForm):
     people_count = IntegerField('Количество участников', validators=[
@@ -11,7 +10,7 @@ class BookingForm(FlaskForm):
 
     message = TextAreaField('Сообщение гиду (опционально)', validators=[
         Optional(),
-        NumberRange(max=500, message='Не более 500 символов')
+        Length(max=500, message='Не более 500 символов')
     ])
 
     submit = SubmitField('Забронировать')

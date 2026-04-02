@@ -9,29 +9,29 @@ class RegisterForm(FlaskForm):
         ('guide', 'Гид/Организатор')
     ]
 
-    email = StringField('Email:', validators=[
+    name = StringField('Имя пользователя', validators=[
+        DataRequired('Введите имя'),
+        Length(min=2, max=50)
+    ])
+
+    email = StringField('Email', validators=[
         DataRequired('Введите email'),
-        Email('Некорректный E-mail адрес')
+        Email('Некорректный email')
     ])
-    password = PasswordField('Пароль:', validators=[
+
+    password = PasswordField('Пароль', validators=[
         DataRequired('Введите пароль'),
-        Length(min=3, message='Пароль слишком короткий')
+        Length(min=3, message='Пароль минимум 3 символа')
     ])
-    password_again = PasswordField('Повторите пароль:', validators=[
-        DataRequired('Повторите пароль'),
-        Length(min=3, message='Пароль слишком короткий')
+
+    password_again = PasswordField('Повторите пароль', validators=[
+        DataRequired('Повторите пароль')
     ])
-    name = StringField('Имя пользователя:', validators=[
-        DataRequired('Введите своё имя'),
-        Length(min=2, max=50, message='Имя от 2 до 50 символов')
-    ])
-    about = TextAreaField('О себе:', validators=[
-        Length(max=500, message='Не более 500 символов')
-    ])
-    role = SelectField('Роль:', choices=ROLES, validators=[
-        DataRequired('Выберите роль')
-    ])
-    phone = StringField('Телефон:', validators=[
-        Length(min=10, max=20, message='Введите корректный номер телефона')
-    ])
+
+    about = TextAreaField('О себе')
+
+    role = SelectField('Роль', choices=ROLES)
+
+    phone = StringField('Телефон')
+
     submit = SubmitField('Зарегистрироваться')

@@ -16,6 +16,12 @@ class TourForm(FlaskForm):
         ('extreme', '⚡ Экстрим')
     ]
 
+    ORGANIZER_TYPES = [
+        ('company', '🏢 Компания WildRoutes'),
+        ('guide', '👤 Частный гид')
+    ]
+
+    # Основные поля
     title = StringField('Название тура', validators=[
         DataRequired('Введите название тура'),
         Length(min=5, max=100, message='Название должно быть от 5 до 100 символов')
@@ -63,6 +69,11 @@ class TourForm(FlaskForm):
         Length(max=500, message='Слишком длинная ссылка')
     ])
 
+    images = StringField('Ссылки на дополнительные фото (через запятую)', validators=[
+        Optional(),
+        Length(max=2000, message='Слишком длинная строка')
+    ])
+
     includes = TextAreaField('Что включено в стоимость', validators=[
         Optional(),
         Length(max=1000, message='Не более 1000 символов')
@@ -71,6 +82,37 @@ class TourForm(FlaskForm):
     itinerary = TextAreaField('Программа маршрута', validators=[
         DataRequired('Опишите программу маршрута'),
         Length(min=50, max=2000, message='Программа должна быть от 50 до 2000 символов')
+    ])
+
+    # Тип организатора
+    organizer_type = SelectField('Тип организатора', choices=ORGANIZER_TYPES, validators=[
+        DataRequired('Выберите тип организатора')
+    ])
+
+    # Поля для компании
+    company_name = StringField('Название компании', validators=[
+        Optional(),
+        Length(min=2, max=100, message='Название от 2 до 100 символов')
+    ])
+
+    company_description = TextAreaField('О компании', validators=[
+        Optional(),
+        Length(max=500, message='Не более 500 символов')
+    ])
+
+    company_phone = StringField('Телефон компании', validators=[
+        Optional(),
+        Length(min=10, max=20, message='Некорректный номер')
+    ])
+
+    company_email = StringField('Email компании', validators=[
+        Optional(),
+        Length(max=100, message='Слишком длинный email')
+    ])
+
+    company_website = StringField('Сайт компании', validators=[
+        Optional(),
+        Length(max=200, message='Слишком длинная ссылка')
     ])
 
     is_active = BooleanField('Активен', default=True)
@@ -84,3 +126,8 @@ class TourForm(FlaskForm):
     def validate_start_date(self, field):
         if field.data and field.data < datetime.now():
             raise ValidationError('Дата начала не может быть в прошлом')
+
+    def get_images_list(self):
+        if self.images.data:
+            return [img.strip() for img in self.images.data.split(',') if img.strip()]
+        return []

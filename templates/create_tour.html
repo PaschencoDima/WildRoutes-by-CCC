@@ -77,7 +77,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 {{ form.start_date.label(class="form-label") }}
-                                {{ form.start_date(class="form-control" + (" is-invalid" if form.start_date.errors else ""), placeholder="2024-12-31 10:00") }}
+                                {{ form.start_date(class="form-control" + (" is-invalid" if form.start_date.errors else ""), placeholder="2025-07-15 10:00") }}
                                 {% for error in form.start_date.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                                 {% endfor %}
@@ -86,7 +86,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 {{ form.end_date.label(class="form-label") }}
-                                {{ form.end_date(class="form-control" + (" is-invalid" if form.end_date.errors else ""), placeholder="2024-12-31 18:00") }}
+                                {{ form.end_date(class="form-control" + (" is-invalid" if form.end_date.errors else ""), placeholder="2025-07-20 18:00") }}
                                 {% for error in form.end_date.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                                 {% endfor %}
@@ -107,12 +107,21 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 {{ form.image_url.label(class="form-label") }}
-                                {{ form.image_url(class="form-control" + (" is-invalid" if form.image_url.errors else ""), placeholder="Ссылка на фото") }}
+                                {{ form.image_url(class="form-control" + (" is-invalid" if form.image_url.errors else ""), placeholder="Ссылка на главное фото") }}
                                 {% for error in form.image_url.errors %}
                                 <div class="invalid-feedback d-block">{{ error }}</div>
                                 {% endfor %}
                             </div>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.images.label(class="form-label") }}
+                        {{ form.images(class="form-control" + (" is-invalid" if form.images.errors else ""), placeholder="https://example.com/photo1.jpg, https://example.com/photo2.jpg") }}
+                        <small class="text-muted">Ссылки на дополнительные фото через запятую</small>
+                        {% for error in form.images.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
                     </div>
 
                     <div class="mb-3">
@@ -133,9 +142,55 @@
                         {% endfor %}
                     </div>
 
+                    <!-- Тип организатора -->
+                    <div class="mb-4">
+                        {{ form.organizer_type.label(class="form-label") }}
+                        {{ form.organizer_type(class="form-select" + (" is-invalid" if form.organizer_type.errors else ""), id="organizerType") }}
+                        {% for error in form.organizer_type.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Блок для компании -->
+                    <div id="companyFields" style="display: none;">
+                        <div class="card bg-dark mb-3">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-building me-2"></i>Информация о компании</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    {{ form.company_name.label(class="form-label") }}
+                                    {{ form.company_name(class="form-control", placeholder="WildRoutes") }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.company_description.label(class="form-label") }}
+                                    {{ form.company_description(class="form-control", rows=2, placeholder="О компании...") }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.company_phone.label(class="form-label") }}
+                                            {{ form.company_phone(class="form-control", placeholder="+7 (999) 123-45-67") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            {{ form.company_email.label(class="form-label") }}
+                                            {{ form.company_email(class="form-control", placeholder="info@wildroutes.ru") }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.company_website.label(class="form-label") }}
+                                    {{ form.company_website(class="form-control", placeholder="https://wildroutes.ru") }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-4 form-check">
-                        {{ form.is_private }}
-                        {{ form.is_private.label(class="form-check-label") }}
+                        {{ form.is_active(class="form-check-input") }}
+                        {{ form.is_active.label(class="form-check-label") }}
                         <small class="text-muted d-block">Если тур неактивен, он не будет отображаться в поиске</small>
                     </div>
 
@@ -150,4 +205,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    const organizerType = document.getElementById('organizerType');
+    const companyFields = document.getElementById('companyFields');
+
+    function toggleCompanyFields() {
+        if (organizerType.value === 'company') {
+            companyFields.style.display = 'block';
+        } else {
+            companyFields.style.display = 'none';
+        }
+    }
+
+    organizerType.addEventListener('change', toggleCompanyFields);
+    toggleCompanyFields();
+</script>
 {% endblock %}
