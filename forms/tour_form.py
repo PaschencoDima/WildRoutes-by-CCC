@@ -17,8 +17,8 @@ class TourForm(FlaskForm):
     ]
 
     ORGANIZER_TYPES = [
-        ('company', '🏢 Компания WildRoutes'),
-        ('guide', '👤 Частный гид')
+        ('company', '👤 Частная компания'),
+        ('guide', '🏢 Компания WildRouts')
     ]
 
     # Основные поля

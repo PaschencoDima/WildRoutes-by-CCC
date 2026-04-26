@@ -32,7 +32,8 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
-    return db_sess.get(User, user_id)
+    user = db_sess.query(User).options(joinedload(User.tours)).get(user_id)
+    return user
 
 
 @app.errorhandler(404)
@@ -128,7 +129,8 @@ def tour_detail(tour_id):
 @login_required
 def book_tour(tour_id):
     db_sess = db_session.create_session()
-    tour = db_sess.get(Tour, tour_id)
+    # Используем query.get или просто get
+    tour = db_sess.query(Tour).get(tour_id)
 
     if not tour:
         abort(404)
@@ -136,21 +138,25 @@ def book_tour(tour_id):
     form = BookingForm()
 
     if form.validate_on_submit():
-        total_price = tour.price * form.people_count.data
+        try:
+            total_price = tour.price * form.people_count.data
 
-        booking = Booking(
-            people_count=form.people_count.data,
-            total_price=total_price,
-            message=form.message.data,
-            traveler_id=current_user.id,
-            tour_id=tour_id,
-            status='pending'
-        )
+            booking = Booking(
+                people_count=form.people_count.data,
+                total_price=total_price,
+                message=form.message.data,
+                traveler_id=current_user.id,
+                tour_id=tour_id,
+                status='pending'
+            )
 
-        db_sess.add(booking)
-        db_sess.commit()
-
-        return redirect(url_for('my_bookings'))
+            db_sess.add(booking)
+            db_sess.commit()
+            return redirect(url_for('my_bookings'))
+        except Exception as e:
+            print(f"Ошибка при бронировании: {e}")
+            db_sess.rollback()
+            return redirect(url_for('tour_detail', tour_id=tour_id))
 
     return redirect(url_for('tour_detail', tour_id=tour_id))
 
@@ -222,9 +228,12 @@ def my_tours():
 
 
 # ========== СОЗДАНИЕ ТУРА ==========
-@app.route("/create-tour", methods=["GET", "POST"])
+@app.route("/create_tour", methods=["GET", "POST"])
 @login_required
 def create_tour():
+    if not current_user.is_guide():
+        return redirect('/profile')
+
     form = TourForm()
 
     if form.validate_on_submit():
@@ -244,30 +253,17 @@ def create_tour():
             includes=form.includes.data,
             itinerary=form.itinerary.data,
             organizer_type=form.organizer_type.data,
-            is_active=form.is_active.data
+            is_active=form.is_active.data,
+            guide_id=current_user.id
         )
 
-        # Устанавливаем изображения
-        images_list = form.get_images_list()
-        if images_list:
-            tour.set_images_list(images_list)
+        if hasattr(form, 'get_images_list'):
+            images_list = form.get_images_list()
+            if images_list:
+                tour.set_images_list(images_list)
 
-        # Заполняем данные в зависимости от типа организатора
         if form.organizer_type.data == 'company':
             tour.company_name = form.company_name.data or "WildRoutes"
-            tour.company_description = form.company_description.data
-            tour.company_phone = form.company_phone.data
-            tour.company_email = form.company_email.data
-            tour.company_website = form.company_website.data
-            tour.guide_id = None
-        else:  # guide
-            tour.guide_id = current_user.id
-            # Очищаем поля компании
-            tour.company_name = None
-            tour.company_description = None
-            tour.company_phone = None
-            tour.company_email = None
-            tour.company_website = None
 
         db_sess.add(tour)
         db_sess.commit()
@@ -463,6 +459,13 @@ def get_feedback():
     return render_template("contacts.html", title="Обратная связь")
 
 
+@app.route("/map")
+def map():
+    coords = [59.864471, 30.156299]
+    api_key = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
+    return render_template("map.html", api_key=api_key, coords=coords, title="Ваше местоположение.")
+
+
 if __name__ == "__main__":
     db_session.global_init("db/blogs.sqlite")
     app.register_blueprint(users_api)
@@ -470,4 +473,3 @@ if __name__ == "__main__":
     app.register_blueprint(bookings_api)
     app.register_blueprint(ai_api)
     app.run(host="127.0.0.1", port=5000, debug=True)
-    profile

@@ -2,45 +2,125 @@
 
 {% block content %}
 <div class="container py-5">
-    <div class="row">
+    <div class="row g-4">
         <div class="col-lg-8">
-            <h1 class="mb-4 text-white">{{ tour.title }}</h1>
-            <div class="card bg-panel border-0 overflow-hidden rounded-4 mb-4">
-                <img src="{{ tour.image_url or 'https://images.unsplash.com/photo-1519681393784-d120267933ba' }}" class="img-fluid" alt="{{ tour.title }}">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-accent text-decoration-none">Туры</a></li>
+                    <li class="breadcrumb-item active text-muted" aria-current="page">{{ tour.title }}</li>
+                </ol>
+            </nav>
+
+            <h1 class="mb-4 text-white fw-bold">{{ tour.title }}</h1>
+
+            <div class="card bg-panel border-0 overflow-hidden rounded-4 mb-4 shadow-lg">
+                <div class="position-relative">
+                    <img src="{{ tour.image_url or 'https://images.unsplash.com/photo-1519681393784-d120267933ba' }}"
+                         class="img-fluid w-100" alt="{{ tour.title }}"
+                         style="max-height: 500px; object-fit: cover;">
+                    <div class="card-badge">
+                        <i class="fas fa-tag me-1"></i> {{ tour.category }}
+                    </div>
+                </div>
             </div>
 
-            <div class="tour-description mb-5 text-main">
-                <h3 class="text-white">О туре</h3>
-                <p style="white-space: pre-line;">{{ tour.description }}</p>
+            <div class="tour-info-grid d-flex flex-wrap gap-4 mb-5 p-4 bg-panel rounded-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-clock fa-2x text-accent me-3"></i>
+                    <div>
+                        <div class="text-muted small">Длительность</div>
+                        <div class="text-white fw-bold">{{ tour.duration_days }} дн.</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-map-marker-alt fa-2x text-accent me-3"></i>
+                    <div>
+                        <div class="text-muted small">Локация</div>
+                        <div class="text-white fw-bold">{{ tour.location }}</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-users fa-2x text-accent me-3"></i>
+                    <div>
+                        <div class="text-muted small">Группа до</div>
+                        <div class="text-white fw-bold">{{ tour.max_people }} чел.</div>
+                    </div>
+                </div>
             </div>
+
+            <div class="tour-description mb-5">
+                <h3 class="text-white mb-4 border-start border-accent border-4 ps-3">О путешествии</h3>
+                <p class="text-main lh-lg" style="white-space: pre-line;">
+                    {{ tour.description }}
+                </p>
+            </div>
+
+            {% if tour.itinerary %}
+            <div class="itinerary-section mb-5">
+                <h3 class="text-white mb-4 border-start border-accent border-4 ps-3">Программа тура</h3>
+                <div class="p-4 bg-panel rounded-4 text-main">
+                    {{ tour.itinerary | safe }}
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         <div class="col-lg-4">
-            <div class="organizer-info p-4 bg-panel rounded-4 shadow-sm">
-                <h5 class="text-white"><i class="fas fa-info-circle me-2 text-accent"></i>Бронирование</h5>
-                <hr class="border-secondary opacity-25">
+            <div class="sticky-top" style="top: 2rem;">
+                <div class="booking-card p-4 bg-panel rounded-4 shadow-sm mb-4 border border-secondary border-opacity-10">
+                    <h5 class="text-white mb-4"><i class="fas fa-calendar-check me-2 text-accent"></i>Бронирование</h5>
 
-                <div class="price-section">
-                    <h2 class="text-accent text-center">{{ "{:,.0f}".format(tour.price) }} ₽ <span class="small text-muted">/ чел.</span></h2>
+                    <div class="price-display text-center p-3 mb-4 rounded-3" style="background: rgba(255,255,255,0.03);">
+                        <h2 class="text-accent fw-bold mb-0">{{ "{:,.0f}".format(tour.price) }} ₽</h2>
+                        <span class="text-muted small">за одного человека</span>
+                    </div>
 
-                    <form action="{{ url_for('book_tour', tour_id=tour.id) }}" method="post" class="mt-3">
+                    <form action="{{ url_for('bookings_api.create_booking', tour_id=tour.id) }}" method="post">
                         {{ booking_form.csrf_token }}
 
                         <div class="mb-3">
-                            <label class="form-label text-white small">Количество человек:</label>
-                            {{ booking_form.people_count(class="form-control bg-dark text-white border-secondary", type="number", value="1") }}
-                            {% for error in booking_form.people_count.errors %}
-                                <div class="text-danger small">{{ error }}</div>
-                            {% endfor %}
+                            <label class="form-label text-muted small fw-bold text-uppercase">Количество мест</label>
+                            {{ booking_form.people_count(class="form-control bg-dark text-white border-secondary", type="number", value="1", min="1", max=tour.max_people) }}
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label text-white small">Сообщение гиду:</label>
-                            {{ booking_form.message(class="form-control bg-dark text-white border-secondary", rows="3") }}
+                        <div class="mb-4">
+                            <label class="form-label text-muted small fw-bold text-uppercase">Сообщение организатору</label>
+                            {{ booking_form.message(class="form-control bg-dark text-white border-secondary", rows="3", placeholder="Ваши пожелания или вопросы...") }}
                         </div>
 
-                        {{ booking_form.submit(class="btn btn-accent w-100 py-3 fw-bold") }}
+                        {% if current_user.is_authenticated %}
+                            {{ booking_form.submit(class="btn btn-accent btn-lg w-100 py-3 fw-bold shadow-accent") }}
+                        {% else %}
+                            <a href="/login" class="btn btn-outline-accent btn-lg w-100 py-3 fw-bold">Войти, чтобы забронировать</a>
+                        {% endif %}
                     </form>
+
+                    <p class="text-center text-muted small mt-3 mb-0">
+                        <i class="fas fa-shield-alt me-1"></i> Безопасная оплата через WildRoutes
+                    </p>
+                </div>
+
+                <div class="organizer-card p-4 bg-panel rounded-4 shadow-sm border border-secondary border-opacity-10">
+                    <h6 class="text-muted small fw-bold text-uppercase mb-3">Организатор</h6>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="flex-shrink-0">
+                            {% set org = tour.get_organizer_info() %}
+                            {% if org.avatar %}
+                                <img src="{{ org.avatar }}" class="rounded-circle border border-accent p-1" width="60" height="60" style="object-fit: cover;">
+                            {% else %}
+                                <div class="bg-accent text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                    {{ org.name[0].upper() }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="ms-3">
+                            <h5 class="text-white mb-0">{{ org.name }}</h5>
+                            <span class="badge bg-success-subtle text-success small">Проверенный {{ 'клуб' if org.type == 'company' else 'гид' }}</span>
+                        </div>
+                    </div>
+                    {% if org.description %}
+                        <p class="text-muted small mb-0">{{ org.description[:120] }}...</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

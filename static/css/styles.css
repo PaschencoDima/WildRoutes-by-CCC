@@ -2,18 +2,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700;800&display=swap');
 
 :root {
-    /* Современная темная палитра */
-    --bg-dark: #0a0a0c;
-    --bg-panel: #141417;
-    --accent: #4CAF50; /* Ваш зеленый */
-    --accent-glow: rgba(76, 175, 80, 0.35);
-    --text-main: #e0e0e6;
-    --text-muted: #a0a0ab;
-    --glass: rgba(20, 20, 23, 0.7);
+    /* Черно-желтая премиальная палитра */
+    --bg-dark: #050505;       /* Глубокий черный */
+    --bg-panel: #111111;      /* Цвет карточек и панелей */
+    --accent: #FFBF00;        /* Яркий янтарный */
+    --accent-ochre: #DAA520;  /* Глубокая охра для акцентов */
+    --accent-glow: rgba(255, 191, 0, 0.2);
+    --text-main: #f0f0f0;
+    --text-muted: #ebebeb;
+    --glass: rgba(15, 15, 15, 0.85);
+    --danger: #FF4444;        /* Красный для отмененных статусов */
 
     --font-main: 'Inter', sans-serif;
     --font-heading: 'Montserrat', sans-serif;
-
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -32,210 +33,178 @@ h1, h2, h3, .navbar-brand {
     letter-spacing: -0.03em;
 }
 
-/* Эффект Glassmorphism для навигации */
-.navbar-modern {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.navbar-brand {
-    font-size: 1.5rem;
-    color: #fff !important;
-}
-
-.navbar-brand span {
-    color: var(--accent);
-}
-
-.nav-link {
-    color: var(--text-main) !important;
-    font-weight: 500;
-    margin-left: 1rem;
-    transition: var(--transition);
-    opacity: 0.8;
-}
-
-.nav-link:hover, .nav-link.active {
-    opacity: 1;
-    color: var(--accent) !important;
-}
-
-/* Современные кнопки */
-.btn-modern {
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    transition: var(--transition);
-    border: none;
-}
-
+/* Кнопки */
 .btn-accent {
     background-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 4px 14px var(--accent-glow);
+    color: #000 !important; /* Черный текст на желтом фоне для читаемости */
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 10px 25px;
+    transition: var(--transition);
 }
 
 .btn-accent:hover {
-    background-color: #5dc061;
-    box-shadow: 0 6px 20px var(--accent-glow);
+    background-color: var(--accent-ochre);
+    box-shadow: 0 0 20px var(--accent-glow);
     transform: translateY(-2px);
 }
 
 .btn-outline-modern {
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--text-main);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 10px;
+    font-weight: 600;
+    transition: var(--transition);
 }
 
 .btn-outline-modern:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(76, 175, 80, 0.05);
+    background: var(--accent);
+    color: #000;
 }
 
-/* Стили для Главной (Hero Section) */
+/* Навигация */
+.navbar-modern {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem 0;
+}
+
+.nav-link {
+    color: var(--text-main) !important;
+    font-weight: 500;
+    margin: 0 10px;
+    transition: var(--transition);
+}
+
+.nav-link:hover {
+    color: var(--accent) !important;
+}
+
+/* Карусель на главной */
 .hero-slider-section {
-    height: 80vh;
-    position: relative;
-    overflow: hidden;
-    margin-top: -80px; /* Чтобы заходило под навигацию */
+    height: 550px;
+    margin-bottom: 4rem;
 }
 
 .carousel-img {
-    height: 80vh;
+    height: 550px;
+    width: 100%;
     object-fit: cover;
-    filter: brightness(0.5) contrast(1.1);
+    filter: brightness(0.5);
 }
 
-.carousel-caption {
+.carousel-caption .glass-panel {
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 3rem;
     text-align: left;
-    bottom: 15%;
-    left: 10%;
-    right: 10%;
 }
 
 .hero-title {
-    font-size: 4rem;
-    line-height: 1;
-    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 3.5rem;
     margin-bottom: 1rem;
+    color: #fff;
 }
 
 .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: var(--text-muted);
     max-width: 600px;
-    margin-bottom: 2rem;
 }
 
-/* Современные Карточки Туров */
-.tour-card-modern {
+/* Карточки бронирований и туров */
+.booking-card {
     background: var(--bg-panel);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.03);
-    overflow: hidden;
+    border-radius: 20px;
     transition: var(--transition);
-    height: 100%;
 }
 
-.tour-card-modern:hover {
-    transform: translateY(-5px) scale(1.01);
-    border-color: rgba(76, 175, 80, 0.2);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+.booking-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
 }
 
-.card-img-container {
-    height: 220px;
-    overflow: hidden;
+.booking-card-image-wrapper {
     position: relative;
+    height: 240px;
+    width: 100%;
+    overflow: hidden;
 }
 
-.card-img-top {
+.booking-card-image-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: var(--transition);
 }
 
-.tour-card-modern:hover .card-img-top {
-    transform: scale(1.1);
-}
-
-.card-badge {
+/* Инфо-плашка в левом верхнем углу */
+.booking-info-badge {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    padding: 8px 16px;
     background: var(--glass);
-    backdrop-filter: blur(5px);
-    color: var(--accent);
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 4px solid var(--accent); /* Желтая полоса слева */
+    border-radius: 12px;
+}
+
+.status-text {
+    font-weight: 800;
     font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid rgba(76, 175, 80, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
 }
 
-.card-body-modern {
-    padding: 1.5rem;
+/* Стиль для отмененных броней */
+.status-cancelled-badge {
+    border-left-color: var(--danger) !important;
 }
 
-.card-title-modern {
-    font-size: 1.25rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-}
-
-.card-text-muted {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-}
-
-.card-footer-modern {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding-top: 1rem;
+.status-cancelled {
+    color: var(--danger) !important;
 }
 
 .card-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--accent);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--accent-ochre);
+}
+
+/* Слайдер (горизонтальный свайп) */
+.modern-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: none; /* Скрыть скроллбар в Firefox */
+}
+
+.modern-slider::-webkit-scrollbar {
+    display: none; /* Скрыть скроллбар в Chrome/Safari */
 }
 
 /* Футер */
 .footer-modern {
     background: var(--bg-panel);
-    border-top: 1px solid rgba(255,255,255,0.03);
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    padding: 4rem 0 2rem;
+    margin-top: 5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Утилиты */
-.text-accent { color: var(--accent) !important; }
-.bg-panel { background-color: var(--bg-panel) !important; }
-
-/* Улучшение видимости стрелок карусели */
-.carousel-control-prev, .carousel-control-next {
-    width: 5%;
-    opacity: 0.7;
-}
-.carousel-control-prev:hover, .carousel-control-next:hover {
-    opacity: 1;
-}
-.carousel-control-prev-icon, .carousel-control-next-icon {
-    background-color: rgba(0,0,0,0.5);
-    border-radius: 50%;
-    background-size: 60%;
-    padding: 20px;
+.text-accent {
+    color: var(--accent-ochre) !important;
 }

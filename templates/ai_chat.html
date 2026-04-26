@@ -4,42 +4,39 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-lg-8 mx-auto">
-            <div class="ai-chat-card">
-                <div class="chat-header">
+            <div class="ai-chat-card booking-card p-4"> <div class="chat-header mb-4">
                     <div class="d-flex align-items-center">
-                        <i class="fas fa-robot fa-2x text-success me-3"></i>
+                        <i class="fas fa-robot fa-2x text-accent me-3"></i>
                         <div>
                             <h3 class="mb-0">AI-помощник WildRoutes</h3>
                             <p class="text-muted small mb-0">Задай вопрос о путешествиях, турах или достопримечательностях</p>
                         </div>
-                    </div>
-                </div>
-
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message bot-message">
-                        <div class="message-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="message-content">
-                            <p>Привет! 👋 Я AI-помощник WildRoutes. Могу помочь найти интересные туры, рассказать о достопримечательностях России, посоветовать маршруты. Задавай любые вопросы о путешествиях!</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <div class="input-group">
-                        <input type="text" id="userMessage" class="form-control" placeholder="Спроси меня о путешествиях..." autocomplete="off">
-                        <button class="btn btn-success" id="sendBtn" onclick="sendMessage()">
-                            <i class="fas fa-paper-plane"></i> Отправить
+                        <button class="btn btn-sm btn-outline-modern ms-auto" onclick="clearChat()">
+                            <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
-                    <div class="suggestions mt-2">
-                        <small class="text-muted">Примеры вопросов:</small>
-                        <div class="suggestion-buttons mt-1">
-                            <button class="suggestion-btn" onclick="setMessage('Какие туры есть на Байкал?')">🏞️ Туры на Байкал</button>
-                            <button class="suggestion-btn" onclick="setMessage('Что посмотреть в Санкт-Петербурге?')">🏛️ Что посмотреть в Питере</button>
-                            <button class="suggestion-btn" onclick="setMessage('Как забронировать тур?')">📝 Как забронировать</button>
-                            <button class="suggestion-btn" onclick="setMessage('Советы для похода в горы')">🏔️ Советы для похода</button>
+                </div>
+
+                <div class="chat-messages modern-slider flex-column" id="chatMessages" style="height: 450px; overflow-y: auto; display: flex;">
+                    </div>
+
+                <div class="chat-input-area mt-4">
+                    <div class="input-group shadow-sm">
+                        <input type="text" id="userMessage" class="form-control bg-dark text-white border-secondary"
+                               placeholder="Спроси меня о путешествиях..." autocomplete="off"
+                               onkeypress="if(event.key === 'Enter') sendMessage()">
+                        <button class="btn btn-accent" id="sendBtn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane me-2"></i>Отправить
+                        </button>
+                    </div>
+
+                    <div class="suggestions mt-3">
+                        <small class="text-muted d-block mb-2">Примеры вопросов:</small>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-sm btn-outline-modern" onclick="setMessage('Какие туры есть на Байкал?')">🏞️ Туры на Байкал</button>
+                            <button class="btn btn-sm btn-outline-modern" onclick="setMessage('Что посмотреть в Санкт-Петербурге?')">🏛️ Питер</button>
+                            <button class="btn btn-sm btn-outline-modern" onclick="setMessage('Как забронировать тур?')">📝 Бронь</button>
+                            <button class="btn btn-sm btn-outline-modern" onclick="setMessage('Советы для похода в горы')">🏔️ Поход</button>
                         </div>
                     </div>
                 </div>
@@ -47,263 +44,4 @@
         </div>
     </div>
 </div>
-
-<style>
-.ai-chat-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    height: 70vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.chat-header {
-    padding: 20px;
-    border-bottom: 1px solid rgba(76, 175, 80, 0.3);
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-.message {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-    animation: fadeIn 0.3s ease;
-}
-
-.message.user-message {
-    flex-direction: row-reverse;
-}
-
-.message-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(76, 175, 80, 0.2);
-    flex-shrink: 0;
-}
-
-.user-message .message-avatar {
-    background: rgba(33, 150, 243, 0.2);
-}
-
-.message-content {
-    max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 18px;
-    background: rgba(76, 175, 80, 0.1);
-    color: white;
-    line-height: 1.4;
-}
-
-.user-message .message-content {
-    background: rgba(33, 150, 243, 0.2);
-}
-
-.message-content p {
-    margin: 0;
-}
-
-.chat-input-area {
-    padding: 20px;
-    border-top: 1px solid rgba(76, 175, 80, 0.3);
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.chat-input-area .form-control {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    color: white;
-}
-
-.chat-input-area .form-control:focus {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: var(--primary);
-    box-shadow: none;
-}
-
-.suggestion-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.suggestion-btn {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.3);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.suggestion-btn:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.typing-indicator {
-    display: flex;
-    gap: 4px;
-    padding: 12px 16px;
-}
-
-.typing-indicator span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(76, 175, 80, 0.5);
-    animation: typing 1.4s infinite;
-}
-
-.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typing {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-    30% { transform: translateY(-10px); opacity: 1; }
-}
-</style>
-
-<script>
-let isTyping = false;
-
-function sendMessage() {
-    const input = document.getElementById('userMessage');
-    const message = input.value.trim();
-
-    if (!message || isTyping) return;
-
-    // Очищаем поле ввода
-    input.value = '';
-
-    // Добавляем сообщение пользователя
-    addMessage(message, 'user');
-
-    // Показываем индикатор печати
-    showTypingIndicator();
-    isTyping = true;
-
-    // Отправляем запрос к API
-    fetch('/api/ai/travel-assistant', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: message })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Убираем индикатор печати
-        removeTypingIndicator();
-        isTyping = false;
-
-        if (data.status === 'ok') {
-            addMessage(data.response, 'bot');
-        } else {
-            addMessage('Извините, произошла ошибка. Попробуйте позже.', 'bot');
-        }
-
-        // Прокручиваем вниз
-        scrollToBottom();
-    })
-    .catch(error => {
-        removeTypingIndicator();
-        isTyping = false;
-        addMessage('Ошибка соединения. Проверьте интернет.', 'bot');
-        scrollToBottom();
-    });
-}
-
-function addMessage(text, sender) {
-    const messagesDiv = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}-message`;
-
-    const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.innerHTML = sender === 'bot' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
-
-    const content = document.createElement('div');
-    content.className = 'message-content';
-
-    // Преобразуем markdown-like форматирование в HTML
-    let formattedText = text
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>');
-
-    content.innerHTML = formattedText;
-
-    messageDiv.appendChild(avatar);
-    messageDiv.appendChild(content);
-    messagesDiv.appendChild(messageDiv);
-
-    scrollToBottom();
-}
-
-function showTypingIndicator() {
-    const messagesDiv = document.getElementById('chatMessages');
-    const indicator = document.createElement('div');
-    indicator.id = 'typingIndicator';
-    indicator.className = 'message bot-message';
-    indicator.innerHTML = `
-        <div class="message-avatar">
-            <i class="fas fa-robot"></i>
-        </div>
-        <div class="message-content typing-indicator">
-            <span></span><span></span><span></span>
-        </div>
-    `;
-    messagesDiv.appendChild(indicator);
-    scrollToBottom();
-}
-
-function removeTypingIndicator() {
-    const indicator = document.getElementById('typingIndicator');
-    if (indicator) {
-        indicator.remove();
-    }
-}
-
-function scrollToBottom() {
-    const messagesDiv = document.getElementById('chatMessages');
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
-
-function setMessage(text) {
-    document.getElementById('userMessage').value = text;
-    sendMessage();
-}
-
-// Отправка по Enter
-document.getElementById('userMessage').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        sendMessage();
-    }
-});
-</script>
 {% endblock %}

@@ -5,6 +5,8 @@
     <div id="tourCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
         <div class="carousel-indicators">
             {% for tour in tours[:3] %}
+                <button type="button" data-bs-target="#tourCarousel" data-bs-slide-to="{{ loop.index0 }}"
+                        class="{% if loop.first %}active{% endif %}" aria-current="true"></button>
             {% endfor %}
         </div>
 
@@ -15,10 +17,10 @@
                     <img src="{{ tour.image_url or 'https://images.unsplash.com/photo-1519681393784-d120267933ba' }}"
                          class="d-block w-100 carousel-img" alt="{{ tour.title }}">
                     <div class="carousel-caption">
-                        <div class="container p-0">
-                            <h1 class="hero-title">{{ tour.title }}</h1>
-                            <p class="hero-subtitle">{{ tour.description[:150] }}...</p>
-                            <div class="d-flex align-items-center">
+                        <div class="container glass-panel p-4 p-md-5">
+                            <h1 class="hero-title display-4 fw-bold">{{ tour.title }}</h1>
+                            <p class="hero-subtitle mb-4">{{ tour.description[:150] }}...</p>
+                            <div class="d-flex align-items-center justify-content-center justify-content-md-start">
                                 <span class="h2 text-accent fw-bold me-4 mb-0">{{ "{:,.0f}".format(tour.price) }} ₽</span>
                                 <a href="/tour/{{ tour.id }}" class="btn btn-accent btn-modern btn-lg px-5">Подробнее</a>
                             </div>
@@ -26,10 +28,27 @@
                     </div>
                 </div>
                 {% endfor %}
+            {% else %}
+                <div class="carousel-item active h-100">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb" class="d-block w-100 carousel-img" alt="Природа">
+                    <div class="carousel-caption">
+                        <div class="container glass-panel p-5">
+                            <h1 class="hero-title">Добро пожаловать в WildRoutes</h1>
+                            <p class="hero-subtitle">Начните свое приключение прямо сейчас</p>
+                            <a href="/register" class="btn btn-accent btn-modern btn-lg px-5">Зарегистрироваться</a>
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         </div>
 
-        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
 </section>
 
 <div class="container py-5">
@@ -78,21 +97,20 @@
   document.addEventListener('DOMContentLoaded', function () {
     const myCarousel = document.querySelector('#tourCarousel');
     const carousel = new bootstrap.Carousel(myCarousel, {
-      interval: 3000, // 3 секунды на слайд
+      interval: 3000,
       ride: 'carousel',
-      pause: false    // Не останавливаться, если навели мышкой
+      pause: false
     });
   });
 </script>
 {% endblock %}
 <script>
-  // Этот код выполнится, как только страница загрузится в браузере
   document.addEventListener('DOMContentLoaded', function () {
     const el = document.querySelector('#tourCarousel');
     const carousel = new bootstrap.Carousel(el, {
-      interval: 3000, // Время в миллисекундах (3000 = 3 сек)
+      interval: 3000,
       ride: 'carousel',
-      pause: false // Чтобы не останавливалось, когда наводишь мышкой
+      pause: false
     });
   });
 </script>

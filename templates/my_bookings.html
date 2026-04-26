@@ -12,68 +12,29 @@
     {% if bookings %}
     <div class="row g-4">
         {% for booking in bookings %}
-        <div class="col-12">
-            <div class="booking-card-horizontal">
-                <div class="booking-status {{ booking.status }}">
-                    {{ status_names.get(booking.status, booking.status) }}
-                </div>
-                <div class="row g-0">
-                    <div class="col-md-3">
-                        {% if booking.tour.image_url %}
-                        <img src="{{ booking.tour.image_url }}" class="booking-img" alt="{{ booking.tour.title }}">
-                        {% else %}
-                        <div class="booking-img-placeholder">
-                            <i class="fas fa-mountain fa-3x text-muted"></i>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-9">
-                        <div class="booking-info">
-                            <h4>{{ booking.tour.title }}</h4>
-                            <div class="booking-details">
-                                <div class="detail-row">
-                                    <i class="fas fa-map-marker-alt text-success"></i>
-                                    <span>{{ booking.tour.location }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <i class="fas fa-calendar text-success"></i>
-                                    <span>{{ booking.tour.start_date.strftime('%d.%m.%Y') }} - {{ booking.tour.end_date.strftime('%d.%m.%Y') }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <i class="fas fa-users text-success"></i>
-                                    <span>{{ booking.people_count }} чел.</span>
-                                </div>
-                                <div class="detail-row">
-                                    <i class="fas fa-ruble-sign text-success"></i>
-                                    <span>{{ "{:,.0f}".format(booking.total_price) }} ₽</span>
-                                </div>
-                                <div class="detail-row">
-                                    <i class="fas fa-user text-success"></i>
-                                    <span>Гид: {{ booking.tour.guide.name }}</span>
-                                </div>
-                                {% if booking.message %}
-                                <div class="detail-row">
-                                    <i class="fas fa-comment text-success"></i>
-                                    <span>{{ booking.message }}</span>
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <div class="booking-actions mt-3">
-                                {% if booking.status == 'pending' %}
-                                <a href="/cancel-booking/{{ booking.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Отменить бронирование?')">
-                                    <i class="fas fa-times me-1"></i>Отменить
-                                </a>
-                                {% endif %}
-                                <a href="/tour/{{ booking.tour.id }}" class="btn btn-sm btn-outline-success">
-                                    <i class="fas fa-eye me-1"></i>Подробнее о туре
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="card booking-card h-100 bg-panel border-0 shadow-sm overflow-hidden">
+    <div class="booking-card-image-wrapper">
+        <div class="booking-info-badge">
+            <span class="status-text">{{ booking.status }}</span>
+            {% if booking.booking_date %}
+                <small class="d-block opacity-75" style="font-size: 0.7rem;">
+                    {{ booking.booking_date.strftime('%d.%m.%Y') }}
+                </small>
+            {% endif %}
         </div>
+
+        <img src="{{ booking.tour.image_url or 'https://images.unsplash.com/photo-1519681393784-d120267933ba' }}"
+             alt="{{ booking.tour.title }}">
+    </div>
+
+    <div class="card-body p-4">
+        <h5 class="card-title text-white mb-2">{{ booking.tour.title }}</h5>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <span class="card-price">{{ "{:,.0f}".format(booking.total_price) }} ₽</span>
+            <a href="/tour/{{ booking.tour.id }}" class="btn btn-outline-modern btn-sm">Детали</a>
+        </div>
+    </div>
+</div>
         {% endfor %}
     </div>
     {% else %}
