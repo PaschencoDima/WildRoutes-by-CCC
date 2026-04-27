@@ -1,0 +1,6 @@
+venv
+.idea
+db/blogs.sqlite
+apis/__pycache__
+data/__pycache__
+forms/__pycache__
