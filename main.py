@@ -96,6 +96,9 @@ def index():
 def ai_chat():
     return render_template("ai_chat.html", title="AI-помощник")
 
+@app.route("/coffee")
+def coffee():
+    return render_template("coffee.html", title="Кофе в подарок")
 
 # ========== ДЕТАЛИ ТУРА ==========
 @app.route("/tour/<int:tour_id>")
