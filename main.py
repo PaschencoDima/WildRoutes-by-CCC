@@ -98,7 +98,8 @@ def ai_chat():
 
 @app.route("/coffee")
 def coffee():
-    return render_template("coffee.html", title="Кофе в подарок")
+    api_key = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
+    return render_template("coffee.html", api_key=api_key, title="Кофе в подарок")
 
 # ========== ДЕТАЛИ ТУРА ==========
 @app.route("/tour/<int:tour_id>")
