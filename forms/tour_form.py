@@ -21,7 +21,6 @@ class TourForm(FlaskForm):
         ('guide', '🏢 Компания WildRouts')
     ]
 
-    # Основные поля
     title = StringField('Название тура', validators=[
         DataRequired('Введите название тура'),
         Length(min=5, max=100, message='Название должно быть от 5 до 100 символов')
@@ -84,12 +83,10 @@ class TourForm(FlaskForm):
         Length(min=50, max=2000, message='Программа должна быть от 50 до 2000 символов')
     ])
 
-    # Тип организатора
     organizer_type = SelectField('Тип организатора', choices=ORGANIZER_TYPES, validators=[
         DataRequired('Выберите тип организатора')
     ])
 
-    # Поля для компании
     company_name = StringField('Название компании', validators=[
         Optional(),
         Length(min=2, max=100, message='Название от 2 до 100 символов')

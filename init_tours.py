@@ -8,19 +8,16 @@ def init_tours():
     db_session.global_init("db/blogs.sqlite")
     db_sess = db_session.create_session()
 
-    # Проверяем, есть ли уже туры
     if db_sess.query(Tour).first():
         print("Туры уже существуют")
         return
 
-    # Находим гида (первого пользователя с ролью guide)
     guide = db_sess.query(User).filter(User.role == 'guide').first()
 
     if not guide:
         print("Нет гидов. Сначала зарегистрируйтесь как гид")
         return
 
-    # Базовые туры
     tours_data = [
         {
             "title": "Поход на плато Маньпупунер",

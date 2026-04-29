@@ -24,6 +24,19 @@
                 </div>
             </div>
 
+            {% set additional_images = tour.get_images_list() %}
+            {% if additional_images %}
+            <div class="row g-2 mb-4">
+                {% for img_url in additional_images %}
+                <div class="col-md-3 col-6">
+                    <div class="rounded-3 overflow-hidden shadow-sm" style="height: 120px;">
+                        <img src="{{ img_url }}" class="w-100 h-100" style="object-fit: cover;" alt="Фото тура">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <div class="tour-info-grid d-flex flex-wrap gap-4 mb-5 p-4 bg-panel rounded-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-clock fa-2x text-accent me-3"></i>

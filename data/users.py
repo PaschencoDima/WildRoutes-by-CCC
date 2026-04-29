@@ -16,12 +16,10 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
 
-    # Дополнительные поля для платформы путешествий
-    role = sqlalchemy.Column(sqlalchemy.String, default='traveler')  # traveler, guide
+    role = sqlalchemy.Column(sqlalchemy.String, default='traveler')
     phone = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     avatar_url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    # Связи
     tours = orm.relationship('Tour', back_populates='guide', cascade='all, delete-orphan')
     bookings = orm.relationship('Booking', back_populates='traveler', cascade='all, delete-orphan')
 

@@ -9,21 +9,37 @@ function setMessage(text) {
     sendMessage();
 }
 
-function sendMessage() {
+async function sendMessage() {
     const input = document.getElementById('userMessage');
     const text = input.value.trim();
 
     if (text) {
         addMessageToDisplay('user', text);
         saveMessageToStorage('user', text);
-
         input.value = '';
 
-        setTimeout(() => {
-            const botResponse = "Я зафиксировал ваш вопрос про '" + text + "'. Ищу лучшие маршруты...";
-            addMessageToDisplay('bot', botResponse);
-            saveMessageToStorage('bot', botResponse);
-        }, 600);
+        try {
+            const response = await fetch('/api/ai/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'ok') {
+                addMessageToDisplay('bot', data.response);
+                saveMessageToStorage('bot', data.response);
+            } else {
+                throw new Error(data.error || 'Ошибка сервера');
+            }
+        } catch (error) {
+            const errorMsg = "Извините, произошла ошибка: " + error.message;
+            addMessageToDisplay('bot', errorMsg);
+            saveMessageToStorage('bot', errorMsg);
+        }
     }
 }
 

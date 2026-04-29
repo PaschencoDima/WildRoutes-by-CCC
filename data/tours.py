@@ -22,17 +22,14 @@ class Tour(SqlAlchemyBase):
     includes = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     itinerary = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
 
-    # Тип организатора: 'company' или 'guide'
     organizer_type = sqlalchemy.Column(sqlalchemy.String, default='company')
 
-    # Если organizer_type = 'company'
     company_name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     company_description = sqlalchemy.Column(sqlalchemy.Text, nullable=True)
     company_phone = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     company_email = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     company_website = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
-    # Если organizer_type = 'guide'
     guide_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"), nullable=True)
     guide = orm.relationship('User', back_populates='tours')
 

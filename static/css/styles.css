@@ -1,17 +1,15 @@
-/* static/css/styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@700;800&display=swap');
-
+/* Палитра */
 :root {
-    /* Черно-желтая премиальная палитра */
-    --bg-dark: #050505;       /* Глубокий черный */
-    --bg-panel: #111111;      /* Цвет карточек и панелей */
-    --accent: #FFBF00;        /* Яркий янтарный */
-    --accent-ochre: #DAA520;  /* Глубокая охра для акцентов */
+    --bg-dark: #050505;
+    --bg-panel: #111111;
+    --accent: #FFBF00;
+    --accent-ochre: #DAA520;
     --accent-glow: rgba(255, 191, 0, 0.2);
     --text-main: #f0f0f0;
-    --text-muted: #ebebeb;
+    --text-muted: #bbbbbb;
     --glass: rgba(15, 15, 15, 0.85);
-    --danger: #FF4444;        /* Красный для отмененных статусов */
+    --danger: #FF4444;
 
     --font-main: 'Inter', sans-serif;
     --font-heading: 'Montserrat', sans-serif;
@@ -36,7 +34,7 @@ h1, h2, h3, .navbar-brand {
 /* Кнопки */
 .btn-accent {
     background-color: var(--accent);
-    color: #000 !important; /* Черный текст на желтом фоне для читаемости */
+    color: #000 !important;
     border: none;
     border-radius: 12px;
     font-weight: 700;
@@ -156,7 +154,7 @@ h1, h2, h3, .navbar-brand {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: 4px solid var(--accent); /* Желтая полоса слева */
+    border-left: 4px solid var(--accent);
     border-radius: 12px;
 }
 
@@ -181,20 +179,6 @@ h1, h2, h3, .navbar-brand {
     font-size: 1.3rem;
     font-weight: 800;
     color: var(--accent-ochre);
-}
-
-/* Слайдер (горизонтальный свайп) */
-.modern-slider {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 20px 0;
-    scrollbar-width: none; /* Скрыть скроллбар в Firefox */
-}
-
-.modern-slider::-webkit-scrollbar {
-    display: none; /* Скрыть скроллбар в Chrome/Safari */
 }
 
 /* Футер */

@@ -1,4 +1,3 @@
-// static/js/slider.js
 document.addEventListener('DOMContentLoaded', () => {
     const sliders = document.querySelectorAll('.modern-slider');
 

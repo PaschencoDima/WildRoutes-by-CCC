@@ -4,9 +4,8 @@ import os
 
 ai_api = Blueprint("ai_api", __name__, url_prefix="/api/ai")
 
-# Конфигурация OpenAI
-API_TOKEN = "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"
-ai_model = "stepfun/step-3.5-flash:free"
+API_TOKEN = "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"
+ai_model = "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -16,7 +15,6 @@ client = OpenAI(
 
 @ai_api.post("/chat")
 def chat():
-    """AI чат"""
     data = request.json
     user_message = data.get('message', '')
 
@@ -56,13 +54,12 @@ def travel_assistant():
     """Туристический ассистент"""
     data = request.json
     user_message = data.get('message', '')
-    context = data.get('context', {})  # может содержать user_id, избранное и т.д.
+    context = data.get('context', {})
 
     if not user_message:
         return jsonify({"error": "Сообщение не может быть пустым"}), 400
 
     try:
-        # Формируем системный промпт с контекстом
         system_prompt = """Ты AI-помощник платформы WildRoutes для поиска и бронирования авторских путешествий.
 
 Твои задачи:
