@@ -88,7 +88,7 @@
                         <span class="text-muted small">за одного человека</span>
                     </div>
 
-                    <form action="{{ url_for('bookings_api.create_booking', tour_id=tour.id) }}" method="post">
+                    <form action="{{ url_for('book_tour', tour_id=tour.id) }}" method="post">
                         {{ booking_form.csrf_token }}
 
                         <div class="mb-3">

@@ -5,31 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="84abba9a-48d7-42b9-9ad6-1d3fefac445b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Wild_Routs.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/~$Проект Flask - WildRouts.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Проект Flask - WildRouts.pptx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apis/ai_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/apis/ai_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/tours.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/tours.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Пояснительная записка.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/blogs.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db/blogs.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms/tour_form.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms/tour_form.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init_tours.py" beforeDir="false" afterPath="$PROJECT_DIR$/init_tours.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrate_tours.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrate_tours.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/chat.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/slider.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/slider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/ai_chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/ai_chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/create_tour.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_tour.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/my_tours.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/my_tours.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/my_bookings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/my_bookings.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/tour_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tour_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/~$Проект Flask - WildRouts.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Проект Flask - WildRouts.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/Проект Flask - WildRouts.pptx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

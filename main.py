@@ -28,6 +28,13 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.anonymous_user = AnonymousUser
 
+status_names = {
+        'pending': '⏳ Ожидает',
+        'confirmed': '✅ Подтверждено',
+        'cancelled': '❌ Отменено',
+        'completed': '✔️ Завершено'
+    }
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -171,9 +178,12 @@ def book_tour(tour_id):
 def profile():
     form = UserProfileForm()
     db_sess = db_session.create_session()
-    user = db_sess.get(User, current_user.id)
 
+    # Загружаем пользователя с его созданными турами (для гидов)
     user = db_sess.query(User).options(joinedload(User.tours)).filter(User.id == current_user.id).first()
+
+    # Загружаем все бронирования текущего пользователя[cite: 2]
+    user_bookings = db_sess.query(Booking).filter(Booking.traveler_id == current_user.id).all()
 
     if not user:
         abort(404)
@@ -193,12 +203,14 @@ def profile():
         user.phone = form.phone.data
         user.role = form.role.data
         user.avatar_url = form.avatar_url.data
-
         db_sess.commit()
-
         return redirect(url_for('profile'))
 
-    return render_template("profile.html", form=form, user=user)
+    return render_template("profile.html",
+                           form=form,
+                           user=user,
+                           bookings=user_bookings,
+                           status_names=status_names)
 
 
 # ========== МОИ БРОНИРОВАНИЯ ==========
@@ -207,13 +219,6 @@ def profile():
 def my_bookings():
     db_sess = db_session.create_session()
     bookings = db_sess.query(Booking).filter(Booking.traveler_id == current_user.id).all()
-
-    status_names = {
-        'pending': '⏳ Ожидает подтверждения',
-        'confirmed': '✅ Подтверждено',
-        'cancelled': '❌ Отменено',
-        'completed': '✔️ Завершено'
-    }
 
     return render_template("my_bookings.html", bookings=bookings, status_names=status_names)
 
@@ -477,3 +482,4 @@ if __name__ == "__main__":
     app.register_blueprint(bookings_api)
     app.register_blueprint(ai_api)
     app.run(host="127.0.0.1", port=5000, debug=True)
+    profile
