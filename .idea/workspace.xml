@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="84abba9a-48d7-42b9-9ad6-1d3fefac445b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Пояснительная записка.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/blogs.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/db/blogs.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/my_bookings.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/my_bookings.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/tour_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/tour_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/~$Проект Flask - WildRouts.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Проект Flask - WildRouts.pptx" beforeDir="false" afterPath="$PROJECT_DIR$/Проект Flask - WildRouts.pptx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -4,7 +4,7 @@ import os
 
 ai_api = Blueprint("ai_api", __name__, url_prefix="/api/ai")
 
-API_TOKEN = "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"
+API_TOKEN = "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"
 ai_model = "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free"
 
 client = OpenAI(
